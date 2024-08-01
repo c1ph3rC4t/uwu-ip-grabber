@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
+
+    body {
+      background-color: black;
+      font-family: "Fira Code", Courier, monospace;
+      margin: 0;
+      padding: 0;
+    }
+
+    pre {
+      margin: 0;
+      padding: 0;
+    }
+
+    .glow {
+      font-size: 3.25vw;
+      color: #ffaaee;
+      font-family: "Fira Code";
+      text-shadow: 0px 0px 6vw #ffbbee, 0px 0px 2vw #ffbbee, 0px 0px 16vw #fff;
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+      user-select: text;
+      padding: 1vw;
+      box-sizing: border-box;
+      height: 100vh;
+      position: relative;
+    }
+  </style>
+</head>
+
+<body>
+  <pre class="glow" id="info">UwU IP grabber is grabbing your info...
+Your info will NOT been saved anywhere so dont panic.</pre>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/platform/1.3.6/platform.min.js"></script>
+  <script>
+    const fetchInfo = () => {
+      return fetch('https://UwU-IP-grabber.glitch.me/info')
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          return data;
+        })
+        .catch(error => {
+          console.error('Failed to fetch ip');
+          return null;
+        });
+    };
+
+    const getBrowserAndOSInfo = () => {
+      return {
+        userAgent: platform.ua || 'Unknown',
+        browserName: platform.name || 'Unknown',
+        browserVersion: platform.version || 'Unknown',
+        browserPrerelease: platform.prerelease ? 'Yes' : 'No',
+        browserDescription: platform.description || 'Unknown',
+        layout: platform.layout || 'Unknown',
+        osName: platform.os.family || 'Unknown',
+        osVersion: platform.os.version || 'Unknown',
+        architecture: platform.os.architecture || 'Unknown',
+        device: platform.product || (platform.ua.match(/Mobile|Tablet/) ? "Mobile Device" : "Desktop"),
+        manufacturer: platform.manufacturer || 'Unknown',
+      };
+    }
+
+    const objForm = (data) => {
+      return Object.entries(data)
+        .map(([key, value]) => `${key} : ${value}`)
+        .join('\n');
+    };
+
+    fetchInfo().then(data => {
+      document.getElementById('info').innerHTML = `UwU IP grabber has your info:
+${objForm(data)}
+${objForm(getBrowserAndOSInfo())}
+Your info has NOT been saved anywhere so dont panic.`;
+    });
+  </script>
+</body>
+
+</html>
